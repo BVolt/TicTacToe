@@ -1,0 +1,190 @@
+class TicTacToe{
+    field Array gameBoard;
+    field Array takenTiles;
+    field int takenIndex;
+    field boolean turn;
+    field String tile;
+
+    constructor TicTacToe new(){
+        let gameBoard = Array.new(9);
+        let takenTiles = Array.new(9);
+        let takenIndex = 0;
+        let turn = false;
+        let tile = "X";
+        return this;
+    }
+
+    method void start(){
+        var char key; 
+        var boolean exit;
+        var boolean winCheck;
+        let exit = false;
+
+        do clearGameBoard();
+      
+      while (~exit) {
+        let winCheck = checkWin();
+        if(winCheck){
+            let exit = true;
+            do endGame();
+        }
+        else{
+            do Screen.clearScreen();
+            do Output.moveCursor(0, 0);
+            do printGameBoard();
+            do makeMove();
+        }
+     }
+     return;
+   }
+
+   method void clearGameBoard(){
+        var int i;
+        let i = 0;
+        while(i < 9){
+            let gameBoard[i] = "_";
+            let i = i + 1;
+        }
+        return;
+   }
+   
+    method void printGameBoard() {
+        var int i;
+        var String tile;
+        let i = 0;
+        while(i < 9){
+            let tile = gameBoard[i];
+            do Output.printString(tile);
+            do Output.printString(" ");
+            if ((i = 2)| (i = 5) | (i = 8)){
+                do Output.println();
+            }
+            let i = i + 1;
+        }
+        return;
+    }
+
+    method boolean checkWin(){
+        var char tile0, tile1, tile2, tile3, tile4, tile5, tile6, tile7, tile8, tile9;
+        var String tile;
+        let tile = gameBoard[0];
+        let tile0 = tile.charAt(0);
+        let tile = gameBoard[1];
+        let tile1 = tile.charAt(0);
+        let tile = gameBoard[2];
+        let tile2 = tile.charAt(0);
+        let tile = gameBoard[3];
+        let tile3 = tile.charAt(0);
+        let tile = gameBoard[4];
+        let tile4 = tile.charAt(0);
+        let tile = gameBoard[5];
+        let tile5 = tile.charAt(0);
+        let tile = gameBoard[6];
+        let tile6 = tile.charAt(0);
+        let tile = gameBoard[7];
+        let tile7 = tile.charAt(0);
+        let tile = gameBoard[8];
+        let tile8 = tile.charAt(0);
+        do Output.printString(tile);
+
+        if(((tile0 = tile1) & (tile1 = tile2))){
+            if(~(tile0 = 95)){
+                do endOutputs(tile0);
+                return true;
+            }
+        }
+        if(((tile0 = tile3) & (tile3 = tile6))){
+            if(~(tile0 = 95)){
+                do endOutputs(tile0);
+                return true;
+            }
+        }
+        if(((tile0 = tile4) & (tile4 = tile8))){
+            if(~(tile0 = 95)){
+                do endOutputs(tile0);
+                return true;
+            }
+        }    
+        if(((tile2 = tile5) & (tile5 = tile8))){
+            if(~(tile2 = 95)){
+                do endOutputs(tile2);
+                return true;
+            }
+        }  
+        if(((tile2 = tile4) & (tile4 = tile6))){
+            if(~(tile2 = 95)){
+                do endOutputs(tile2);
+                return true;
+            }
+        }  
+        if(((tile6 = tile7) & (tile7 = tile8))){
+            if(~(tile6 = 95)){
+                do endOutputs(tile8);
+                return true;
+            }
+        }  
+
+        return false;
+    }
+
+    method void endOutputs(char tile){
+        do Screen.clearScreen();
+        do Output.moveCursor(0, 0);
+        do Output.printString("GAME OVER!");
+        do Output.println();
+        do Output.printChar(tile);
+        do Output.printString(" wins!");
+        return;
+    }
+
+    method void makeMove(){
+        var int chosenTile;
+        var boolean tileTaken;
+        do Output.printString("Player ");
+        if(turn){
+            do Output.printString("2 (O) ");
+            let tile = "O";
+        }
+        else{
+            do Output.printString("1 (X) ");
+            let tile = "X";
+        }
+        do Output.printString("turn: ");
+        do Output.println();
+        let chosenTile = Keyboard.readInt("Choose tile(1-9)");
+        let chosenTile = chosenTile - 1;
+        let tileTaken = tileTaken(chosenTile);
+        while(tileTaken){
+            do Output.printString("Tile Taken! Try Again");
+            do Output.println();
+            let chosenTile = Keyboard.readInt("Choose tile(1-9)");
+            let chosenTile = chosenTile - 1;
+            let tileTaken = tileTaken(chosenTile);
+        }
+        let gameBoard[chosenTile] = tile;
+        let takenTiles[0] = chosenTile;
+        let takenIndex = takenIndex + 1;
+        let turn = ~turn;
+        return;
+    }
+
+    method boolean tileTaken(int index){
+        var int i;
+        var int comparison;
+        let i = 0;
+        while(i < takenIndex){
+            let comparison = takenTiles[i];
+            if(comparison = index){
+                return true;
+            }
+            let i = i + 1;
+        }
+        return false;
+    }
+
+    method void endGame(){
+        do Memory.deAlloc(this);
+        return;
+    }
+
+}
