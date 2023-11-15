@@ -104,7 +104,13 @@ class TicTacToe{
                 do endOutputs(tile0);
                 return true;
             }
-        }    
+        }
+        if(((tile1 = tile4) & (tile4 = tile7))){
+            if(~(tile1 = 95)){
+                do endOutputs(tile1);
+                return true;
+            }
+        }   
         if(((tile2 = tile5) & (tile5 = tile8))){
             if(~(tile2 = 95)){
                 do endOutputs(tile2);
@@ -114,6 +120,12 @@ class TicTacToe{
         if(((tile2 = tile4) & (tile4 = tile6))){
             if(~(tile2 = 95)){
                 do endOutputs(tile2);
+                return true;
+            }
+        }  
+        if(((tile3 = tile4) & (tile4 = tile5))){
+            if(~(tile3 = 95)){
+                do endOutputs(tile3);
                 return true;
             }
         }  
